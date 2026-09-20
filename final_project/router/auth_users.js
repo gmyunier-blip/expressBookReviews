@@ -80,11 +80,18 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   for (const i in bookreviews) {
     if (i == username) {
       bookreviews[i].review = review;
-      return res.send("Review updated");
+      return res.send({
+        mesage: "Review updated",
+        data: JSON.stringify(books[isbn].reviews, null, 4),
+      });
     }
   }
   books[isbn].reviews = { ...bookreviews, [username]: { review: review } };
-  return res.send("Review updated");
+  return res.send({
+    mesage: "Review updated",
+    data: JSON.stringify(books[isbn].reviews, null, 4),
+  });
+  //return res.send("Review updated");
   //return res.status(300).json({ message: "Yet to be implemented" });
 });
 regd_users.delete("/auth/review/:isbn", (req, res) => {
@@ -93,7 +100,7 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
   if (isbn) {
     // Delete book from 'books' object based on provided isbn
     delete books[isbn].reviews[username];
-    res.send("Review deleted")
+    res.send("Review deleted");
   } else {
     res.send(`${isbn} not found`);
   }

@@ -77,12 +77,13 @@ public_users.get("/isbn/:isbn", async function (req, res) {
 public_users.get("/author/:author", async function (req, res) {
   //Write your code here
   const author = req.params.author;
-  let book = "Book not found";
+  let book = [];
   for (const isbn in books) {
-    if (books[isbn].author == author) book = books[isbn];
+    if (books[isbn].author == author) book.push(books[isbn]);
   }
   await setTimeout(() => {
-    return res.send(JSON.stringify(book, null, 4));
+    if (book.length > 0) return res.send(JSON.stringify(book, null, 4));
+    else return res.send("Books not found");
   }, 3000);
   // return res.send(JSON.stringify(book, null, 4));
   // return res.status(300).json({ message: "Yet to be implemented" });
