@@ -61,7 +61,9 @@ regd_users.post("/login", (req, res) => {
       accessToken,
       username,
     };
-    return res.status(200).send("User successfully logged in");
+    return res
+      .status(200)
+      .send({ message: `User successfully logged in: Wellcome ${username}` });
   } else {
     return res
       .status(208)
@@ -100,7 +102,7 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
   if (isbn) {
     // Delete book from 'books' object based on provided isbn
     delete books[isbn].reviews[username];
-    res.send("Review deleted");
+    res.send({ mesage: `Book with the isbn ${isbn} deleted.` });
   } else {
     res.send(`${isbn} not found`);
   }

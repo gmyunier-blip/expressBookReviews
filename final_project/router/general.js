@@ -5,17 +5,6 @@ let users = require("./auth_users.js").users;
 const public_users = express.Router();
 const axios = require("axios");
 
-/*public_users.get("/test", async (req, res) => {
-
-  const response = await axios.get("https://randomhouse.com", {
-    params: { expandLevel: 1, search: "Grisham" },
-    timeout: 10000, // 10 segundos de espera máxima antes de lanzar error de código
-    httpsAgent: new https.Agent({ keepAlive: true }), // Mantiene los sockets abiertos
-  });
-  let listOfWork = response.data.work;
-
-  return res.send(JSON.stringify(listOfWork, null, 4));
-});*/
 const doesExist = (username) => {
   // Filter the users array for any user with the same username
   let userswithsamename = users.filter((user) => {
@@ -54,9 +43,13 @@ public_users.post("/register", (req, res) => {
 // Get the book list available in the shop
 public_users.get("/", async function (req, res) {
   //Write your code here
-  await setTimeout(() => {
-    return res.send(JSON.stringify(books, null, 4));
-  }, 3000);
+  try {
+    await setTimeout(() => {
+      return res.send(JSON.stringify(books, null, 4));
+    }, 3000);
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
   // return res.send(JSON.stringify(books, null, 4));
 
   // return res.status(300).json({message: "Yet to be implemented"});
@@ -66,9 +59,13 @@ public_users.get("/", async function (req, res) {
 public_users.get("/isbn/:isbn", async function (req, res) {
   //Write your code here
   const isbn = req.params.isbn;
-  await setTimeout(() => {
-    return res.send(JSON.stringify(books[isbn], null, 4));
-  }, 3000);
+  try {
+    await setTimeout(() => {
+      return res.send(JSON.stringify(books[isbn], null, 4));
+    }, 3000);
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
   // return res.send(JSON.stringify(books[isbn], null, 4));
   //return res.status(300).json({ message: "Yet to be implemented" });
 });
@@ -81,10 +78,14 @@ public_users.get("/author/:author", async function (req, res) {
   for (const isbn in books) {
     if (books[isbn].author == author) book.push(books[isbn]);
   }
-  await setTimeout(() => {
-    if (book.length > 0) return res.send(JSON.stringify(book, null, 4));
-    else return res.send("Books not found");
-  }, 3000);
+  try {
+    await setTimeout(() => {
+      if (book.length > 0) return res.send(JSON.stringify(book, null, 4));
+      else return res.send("Books not found");
+    }, 3000);
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
   // return res.send(JSON.stringify(book, null, 4));
   // return res.status(300).json({ message: "Yet to be implemented" });
 });
@@ -98,10 +99,13 @@ public_users.get("/title/:title", async function (req, res) {
   for (const isbn in books) {
     if (books[isbn].title == title) book = books[isbn];
   }
-  await setTimeout(() => {
-    return res.send(JSON.stringify(book, null, 4));
-  }, 3000);
-  // return res.send(JSON.stringify(book, null, 4));
+  try {
+    await setTimeout(() => {
+      return res.send(JSON.stringify(book, null, 4));
+    }, 3000);
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
   //Freturn res.status(300).json({ message: "Yet to be implemented" });
 });
 
